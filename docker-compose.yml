@@ -1,0 +1,30 @@
+version: "3"
+services:
+  homechart:
+    depends_on:
+      - postgres
+    environment:
+      HOMECHART_postgresql_hostname: postgres
+      HOMECHART_postgresql_password: 6Xv0^u3^gY7D4yoD
+      HOMECHART_postgresql_username: postgres
+    image: ghcr.io/candiddev/homechart:latest
+    ports:
+      - "3100:3000"
+    restart: unless-stopped
+  postgres:
+    environment:
+      POSTGRES_PASSWORD: 6Xv0^u3^gY7D4yoD
+    image: docker.io/postgres:16
+    restart: unless-stopped
+    volumes:
+      - postgres-homecharts:/var/lib/postgresql/data
+      
+volumes:
+  postgres-homecharts:
+    external:
+      name: postgres-homecharts
+
+networks:
+  bridge:
+    external:
+      name: bridge
